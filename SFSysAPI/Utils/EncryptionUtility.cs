@@ -23,7 +23,6 @@ namespace SFSysAPI.Services
             _encryptionKeyBytes = Encoding.UTF8.GetBytes(encryptionKey);
             _encoding = Encoding.UTF8;
         }
-
         public string Encrypt(string value)
         {
             byte[] inputBytes = _encoding.GetBytes(value);
@@ -39,13 +38,14 @@ namespace SFSysAPI.Services
                 int length = cipher.ProcessBytes(inputBytes, 0, inputBytes.Length, encryptedBytes, 0);
                 cipher.DoFinal(encryptedBytes, length);
             //}
-
-            return Convert.ToBase64String(encryptedBytes);
+            //'#' is an identifier that the value is encrypted.
+            return '#'+Convert.ToBase64String(encryptedBytes);
         }
         public string Decrypt(string encryptedValue)
         {
             byte[] encryptedBytes;
             byte[] decryptedBytes;
+            //'#' is an identifier that the value is encrypted.
             if(encryptedValue.StartsWith('#')){
                 encryptedBytes = Convert.FromBase64String(encryptedValue.Substring(1));
 

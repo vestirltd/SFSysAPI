@@ -41,8 +41,6 @@ builder.Services.AddTransient<HttpClient, HttpClient>();
 
 //builder.Services.Configure<SalesforceConfig>(builder.Configuration.GetSection("SalesforceConfig"));
 
-
-
 var app = builder.Build();
 
 app.UseRouting();

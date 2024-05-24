@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFSysAPI", "SFSysAPI\SFSysAPI.csproj", "{4EAD926E-5C51-4AF0-A112-EF18E2FC7D75}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SFSysAPI.Test.Unit", "SFSysAPI.Test.Unit", "{7CD390C3-CBFF-4CAA-ABEC-10AD08E32689}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFSysAPI.Test.Unit", "SFSysAPI.Test.Unit\SFSysAPI.Test.Unit\SFSysAPI.Test.Unit.csproj", "{F6506714-6E28-40F2-B6E1-329C83E4991E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,12 @@ Global
 		{4EAD926E-5C51-4AF0-A112-EF18E2FC7D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EAD926E-5C51-4AF0-A112-EF18E2FC7D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EAD926E-5C51-4AF0-A112-EF18E2FC7D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6506714-6E28-40F2-B6E1-329C83E4991E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6506714-6E28-40F2-B6E1-329C83E4991E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6506714-6E28-40F2-B6E1-329C83E4991E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6506714-6E28-40F2-B6E1-329C83E4991E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6506714-6E28-40F2-B6E1-329C83E4991E} = {7CD390C3-CBFF-4CAA-ABEC-10AD08E32689}
 	EndGlobalSection
 EndGlobal
