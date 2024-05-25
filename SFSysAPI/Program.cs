@@ -34,11 +34,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
     });
-
-builder.Services.AddTransient<IAccountsService, AccountsService>();
 builder.Services.AddTransient<HttpClient, HttpClient>();
-
-
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddTransient<IAccountsService, AccountsService>();
 //builder.Services.Configure<SalesforceConfig>(builder.Configuration.GetSection("SalesforceConfig"));
 
 var app = builder.Build();

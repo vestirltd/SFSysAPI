@@ -11,7 +11,7 @@ using SFSysAPI.Models;
 
 namespace SFSysAPI.Services.Tests
 {
-    public class AccountsServiceTests
+    public class AccountsServiceTest_MockHTTPwithStringResponse
     {
         private readonly Mock<ILogger<AccountsService>> _mockLogger;
         private readonly Mock<IOptions<SalesforceConfig>> _mockSfConfig;
@@ -20,7 +20,7 @@ namespace SFSysAPI.Services.Tests
         private AccountsService _accountsService;
         private HttpClient _mockClient;
 
-        public AccountsServiceTests()
+        public AccountsServiceTest_MockHTTPwithStringResponse()
         {
             _mockLogger = new Mock<ILogger<AccountsService>>();
             _mockSfConfig = new Mock<IOptions<SalesforceConfig>>();
@@ -54,7 +54,7 @@ namespace SFSysAPI.Services.Tests
             //};
 
             string mockResponse = "{\"access_token\":\"mock_access_token_value\",\"instance_url\":\"https://stsl-dev-ed.my.salesforce.com\",\"id\":\"https://login.salesforce.com/id/00D4L000000hekIUAQ/0054L000001zwkCQAQ\",\"token_type\":\"Bearer\",\"issued_at\":\"1716369710328\",\"signature\":\"wO+p7MMoTaNFQGapKto6IT6JE39WZtcGq9VX9KMHTi0=\"}";
-            MockHttpClient(mockResponse);
+            MockHttpClientWithStringResponse(mockResponse);
             _accountsService = new AccountsService(_mockLogger.Object, _mockSfConfig.Object, _mockClient);
              /*_mockHttpMessageHandler
                 .Protected()
@@ -73,11 +73,6 @@ namespace SFSysAPI.Services.Tests
             )
             .ReturnsAsync(mockResponse);*/
 
-            //_mockEncryptionUtility.Setup(x => x.Decrypt("mock_encrypted_password")).Returns("mock_password");
-            //_mockEncryptionUtility.Setup(x => x.Decrypt("mock_encrypted_security_token")).Returns("mock_security_token");
-            //_mockEncryptionUtility.Setup(x => x.Decrypt("mock_encrypted_consumer_key")).Returns("mock_consumer_key");
-            //_mockEncryptionUtility.Setup(x => x.Decrypt("mock_encrypted_consumer_secret")).Returns("mock_consumer_secret");
-
             // Act
             var result = await _accountsService.GetAccessToken();
 
@@ -86,7 +81,7 @@ namespace SFSysAPI.Services.Tests
             Assert.Equal("mock_access_token_value", result);
         }
 
-        private void MockHttpClient(string responseJson)
+        private void MockHttpClientWithStringResponse(string responseJson)
         {
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler.Protected()

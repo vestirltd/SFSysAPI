@@ -11,7 +11,7 @@ using System.Text;
 using Org.BouncyCastle.Crypto.Parameters;
 using SFSysAPI.Interfaces;
 
-namespace SFSysAPI.Services
+namespace SFSysAPI.Utils
 {
     public class EncryptionUtility
     {

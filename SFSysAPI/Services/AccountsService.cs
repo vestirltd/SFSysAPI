@@ -5,36 +5,31 @@
 //using System.Threading.Tasks;
 using SFSysAPI.Interfaces;
 using SFSysAPI.Models;
-using Salesforce.Force;
-using Microsoft.VisualBasic;
-using System.Text.Json.Serialization;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Components.Web;
-using System.Net;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Options;
-using Org.BouncyCastle.Security;
-//using Salesforce.Common.Models;
-
 namespace SFSysAPI.Services
 {
     public class AccountsService : IAccountsService
     {
         private ILogger<AccountsService> _logger;
-        private SalesforceConfig _sfConfig;
-        private EncryptionUtility _encryptionUtility;
+        private IAuthService _authService;
         private HttpClient _httpClient;
-        public AccountsService(ILogger<AccountsService> logger, IOptions<SalesforceConfig> sfConfig, HttpClient httpClient)
+        private SalesforceConfig _sfConfig;
+        public AccountsService(ILogger<AccountsService> logger,
+                        IAuthService authService,
+                        IOptions<SalesforceConfig> sfConfig,
+                        HttpClient httpClient)
         {
             _logger = logger;
+            _authService = authService;
             _sfConfig = sfConfig.Value;
-            _encryptionUtility = new EncryptionUtility(_sfConfig.enKey);
             _httpClient = httpClient;
         }
-        async Task<List<GetAccountResponse>> IAccountsService.GetAccounts() //TODO Why IGetAccountsService.GetAccounts() is coming instead of just GetAccounts???
+        public async Task<List<GetAccountResponse>> GetAccounts() //TODO Why IGetAccountsService.GetAccounts() is coming instead of just GetAccounts???
         {
-            string token = await GetAccessToken();
+            //string token = await GetAccessToken();
+            string token = await _authService.GetAccessToken();
 
             _logger.LogInformation("==============================================");
             _logger.LogInformation("Auth token received successfully from Salesforce");
@@ -78,49 +73,6 @@ namespace SFSysAPI.Services
             {
                 _logger.LogError("Error response received from Salesforce while retrieving account records");
                 _logger.LogError(await responseMessage.Content.ReadAsStringAsync());
-                return null;
-            }
-        }
-
-        public async Task<string> GetAccessToken()
-        { //TODO Need to move this to Client file
-          //using (HttpClient client = new HttpClient())
-          //{
-            string Username = _sfConfig.UserName;
-            string Password = _encryptionUtility.Decrypt(_sfConfig.Password);
-            string SecurityToken = _encryptionUtility.Decrypt(_sfConfig.SecurityToken);
-            string ConsumerKey = _encryptionUtility.Decrypt(_sfConfig.ConsumerKey);
-            string ConsumerSecret = _encryptionUtility.Decrypt(_sfConfig.ConsumerSecret);
-
-            FormUrlEncodedContent content = new FormUrlEncodedContent(new[]
-            {
-                    new KeyValuePair<string, string>("grant_type", "password"),
-                    new KeyValuePair<string, string>("client_id", ConsumerKey),
-                    new KeyValuePair<string, string>("client_secret", ConsumerSecret),
-                    new KeyValuePair<string, string>("username", Username),
-                    new KeyValuePair<string, string>("password", Password + SecurityToken)
-                });
-            string formString = await content.ReadAsStringAsync();
-
-            var fullUrl = _sfConfig.tokenUrl + '?' + formString;
-
-            HttpContent emptyContent = new StringContent("");
-            HttpResponseMessage response = await _httpClient.PostAsync(fullUrl, emptyContent);
-            //HttpResponseMessage response = await _httpClient.SendAsync(new HttpRequestMessage());
-
-            if (response.IsSuccessStatusCode)
-            {
-                _logger.LogInformation("Auth response received");
-                string responseContent = await response.Content.ReadAsStringAsync();
-                SalesforceAuthResponseModel resp = JsonSerializer.Deserialize<SalesforceAuthResponseModel>(responseContent);
-                Console.WriteLine("+++++++++++++++++++++++++++++++++++++");
-                Console.WriteLine(resp.access_token);
-                return resp.access_token;
-            }
-            else
-            {
-                Console.WriteLine($"Error: {response.StatusCode}");
-                Console.WriteLine(await response.Content.ReadAsStringAsync());
                 return null;
             }
         }
