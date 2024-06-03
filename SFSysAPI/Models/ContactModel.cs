@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace SFSysAPI.Models
 {
     public class Contacts
@@ -19,7 +14,14 @@ namespace SFSysAPI.Models
         public object MobilePhone { get; set; }
         public string Email { get; set; }
     }
+    public class SendContact
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
 
-    
-
+    public class SendContacts
+    {
+        public List<SendContact> sed{ get; set; }
+    }
 }

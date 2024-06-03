@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SFSysAPI.Interfaces;
 using SFSysAPI.Models;
 
@@ -28,8 +22,8 @@ namespace SFSysAPI.Controllers
         {
             //System.Console.WriteLine("Request received for Get Accounts");
             _logger.LogInformation("Info ILogger: Request received for Get Accounts");
-            List<GetAccountResponse> accounts = new List<GetAccountResponse>();
-            accounts = await _accountsService.GetAccounts();
+            //List<GetAccountResponse> accounts = new List<GetAccountResponse>();
+            var accounts = await _accountsService.GetAccounts();
             return Ok(accounts);
         }
     }

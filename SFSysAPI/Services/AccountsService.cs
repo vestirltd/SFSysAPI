@@ -25,7 +25,7 @@ namespace SFSysAPI.Services
             _authService = authService;
             _sfConfig = sfConfig.Value;
             _httpClient = httpClient;
-        }
+        } 
         public async Task<List<GetAccountResponse>> GetAccounts() //TODO Why IGetAccountsService.GetAccounts() is coming instead of just GetAccounts???
         {
             //string token = await GetAccessToken();
@@ -42,11 +42,11 @@ namespace SFSysAPI.Services
             List<GetAccountResponse> accts = new List<GetAccountResponse>();
             SFAccountResponse sfResponse = new SFAccountResponse();
             string query = "?q=SELECT+Name,AccountNumber,Site,Phone+from+Account";
-            HttpClient httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(_sfConfig.serviceUrl);
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            HttpContent emptyContent = new StringContent("");
-            HttpResponseMessage responseMessage = await httpClient.GetAsync(_sfConfig.basePath + _sfConfig.queryPath + query);
+            //HttpClient httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri(_sfConfig.serviceUrl);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            //HttpContent emptyContent = new StringContent("");
+            HttpResponseMessage responseMessage = await _httpClient.GetAsync(_sfConfig.basePath + _sfConfig.queryPath + query);
             if (responseMessage.IsSuccessStatusCode)
             {
                 _logger.LogInformation("Success response received from SF for account records");
@@ -58,8 +58,7 @@ namespace SFSysAPI.Services
 
                 foreach (var accountRecord in sfResponse.records)
                 {
-                    //GetAccountResponse acct = new GetAccountResponse();
-                    //acct.Name = accountRecord.Name;
+                    //DPCHECK -- Can we use IEnumerable here?
                     accts.Add(new GetAccountResponse
                     {
                         Name = accountRecord.Name,

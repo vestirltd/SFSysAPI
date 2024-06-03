@@ -1,15 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SFSysAPI.Interfaces;
+using SFSysAPI.Models;
 
 namespace SFSysAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ContactsController : ControllerBase
+    public class ContactsController(ILogger<ContactsController> logger, IContactsService contactsService) : ControllerBase
     {
-        
+        [HttpGet]
+        public async Task<IActionResult> GetContacts(){
+            logger.LogInformation("Request received to get contact details");
+            List<SendContact> sendContacts = await contactsService.GetContacts();
+            return Ok(sendContacts);
+        }
     }
 }

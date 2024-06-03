@@ -14,6 +14,7 @@
     <PackageReference Include="AutoFixture.AutoMoq" Version="4.18.1" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.18.1" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
@@ -27,6 +28,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SFSysAPI\SFSysAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\AccountservicesTest_new.cs" />
+    <Compile Remove="Services\AccountsServiceTest_GetAccounts_HTTPMock.cs" />
+    <Compile Remove="Services\AccountsServiceTest_MockHTTPWithObject.cs" />
   </ItemGroup>
 
 </Project>

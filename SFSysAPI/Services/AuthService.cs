@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using SFSysAPI.Interfaces;
 using SFSysAPI.Models;
@@ -12,10 +8,10 @@ namespace SFSysAPI.Services
 {
     public class AuthService : IAuthService
     {
-        private SalesforceConfig _sfConfig;
-        private EncryptionUtility _encryptionUtility;
-        private ILogger<AuthService> _logger;
-        private HttpClient _httpClient;
+        private readonly SalesforceConfig _sfConfig;
+        private readonly EncryptionUtility _encryptionUtility;
+        private readonly ILogger<AuthService> _logger;
+        private readonly HttpClient _httpClient;
 
         public AuthService(ILogger<AuthService> logger, IOptions<SalesforceConfig> sfConfig, HttpClient httpClient)
         {
